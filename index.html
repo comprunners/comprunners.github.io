@@ -1,9 +1,3 @@
-<!--
-  Hit RUN to see this project in action!
-  
-  This project will auto-refresh as you edit the HTML, CSS and JS. See README.md for more info (including how to disable auto-refresh and install packages).
--->
-
 <!DOCTYPE html>
 <html>
 
@@ -12,33 +6,67 @@
   <meta name="viewport" content="width=device-width">
   <title>comprunners</title>
   <link href="style.css" rel="stylesheet" type="text/css" />
+  <style>
+    .link-button {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .link-button:hover {
+      background-color: #0056b3;
+    }
+
+    body {
+      background-color: green;
+    }
+
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .discrption {
+      font-size: 18px;
+    }
+
+    .grid {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+  </style>
 </head>
-  <body style="background-color: purple;">
+
 <body>
   <main>
-    <h1 class="title">This CompRunners Official Website!</h1>
-    <h1 class="discrption">made by Danks</h1>
-    </p>
+    <h1 class="title">This is the CompRunners Official Website!</h1>
+    <h1 class="discrption">Made by Danks</h1>
 
     <section class="grid">
-      <a href="https://skyreaperisbetter.itch.io/comp-runners" class='card'>
-        <h2>Itch.io &rarr;</h2>
-        <p>download</p>
-      </a>
+      <button class="link-button" onclick="window.location.href='https://skyreaperisbetter.itch.io/comp-runners';">
+        Itch.io →<br>
+        <small>Download</small>
+      </button>
 
+      <button class="link-button" onclick="window.location.href='https://discord.gg/QsW2hxCRfb';">
+        Discord →<br>
+        <small>Game Discord</small>
+      </button>
 
-      <a href="https://discord.gg/QsW2hxCRfb" class='card'>
-        <h2>Discord &rarr;</h2>
-        <p>Game Discord</p>
-      </a>
-
-
-      <section class="grid">
-        <a href="https://www.youtube.com/@Colbyon_unity" class='card'>
-          <h2>danks youtube &rarr;</h2>
-          <p>youtube</p>
-        </a>
-        
+      <button class="link-button" onclick="window.location.href='https://www.youtube.com/@Colbyon_unity';">
+        Danks YouTube →<br>
+        <small>YouTube</small>
+      </button>
     </section>
   </main>
 </body>
