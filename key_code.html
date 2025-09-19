@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Key Code</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v-6h-2v6zm0-8h2V7h-2v2z' fill='%2334d399'/%3E%3C/svg%3E" type="image/svg+xml">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --bg-color: #0b0f2a;
+            --text-color: #d1d5db;
+            --main-card-bg: #1f2937;
+            --border-color: #374151;
+            --header-bg: rgba(0, 0, 0, 0.2);
+            --gradient-start: #10b981;
+            --gradient-end: #86efac;
+            --accent-color: #10b981;
+            --accent-hover: #059669;
+            --search-ring: #22c55e;
+            --icon-color: #6ee7b7;
+        }
+
+        body.light-theme {
+            --bg-color: #f3f4f6;
+            --text-color: #1f2937;
+            --main-card-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --header-bg: rgba(255, 255, 255, 0.5);
+            --gradient-start: #3b82f6;
+            --gradient-end: #60a5fa;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --search-ring: #3b82f6;
+            --icon-color: #60a5fa;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .gradient-text {
+            background-image: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .star {
+            position: absolute;
+            background-color: #e2e8f0;
+            border-radius: 50%;
+            animation: twinkle linear infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.5;
+                transform: scale(0.5);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+    <div id="star-field" class="fixed inset-0 -z-10"></div>
+
+    <main class="container mx-auto px-4 md:px-8 lg:px-16 py-12 flex flex-col items-center justify-center min-h-screen">
+        <section class="w-full max-w-xl p-8 rounded-3xl shadow-2xl relative text-center" style="background-color: var(--main-card-bg); border: 1px solid var(--border-color);">
+            <h1 class="text-3xl md:text-4xl font-bold gradient-text mb-4">Purchase Complete!</h1>
+            <p class="text-gray-400 mb-8">Thank you for your purchase. Your unique key code is below. Make sure to save it!</p>
+            
+            <div id="code-container" class="relative p-6 rounded-2xl border border-dashed text-xl md:text-2xl lg:text-3xl font-mono tracking-widest break-all cursor-pointer" style="border-color: var(--accent-color);">
+                <span id="key-code" class="text-gray-200">Loading...</span>
+                <span class="absolute top-2 right-2 text-xs font-sans text-gray-500 hover:text-white transition-colors duration-200" id="copy-text">Click to Copy</span>
+            </div>
+
+            <button id="copy-button" class="mt-8 px-8 py-4 rounded-xl font-bold text-lg shadow-lg transition-all duration-300 transform hover:scale-105" style="background-color: var(--accent-color); color: white;">
+                Copy Key Code
+            </button>
+        </section>
+    </main>
+
+    <script>
+        const starField = document.getElementById('star-field');
+        const numStars = 200;
+        const createStar = () => {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = `${Math.random() * 2}px`;
+            star.style.height = star.style.width;
+            star.style.top = `${Math.random() * 100}vh`;
+            star.style.left = `${Math.random() * 100}vw`;
+            star.style.animationDuration = `${Math.random() * 2 + 1}s`;
+            star.style.animationDelay = `${Math.random() * 2}s`;
+            return star;
+        };
+        for (let i = 0; i < numStars; i++) {
+            starField.appendChild(createStar());
+        }
+
+        // List of key codes
+        const keyCodes = [
+            '0R9E5J8P7', '8L2B4M7C1', '5A3F9K6D2', '9T1G5H8N0', '2Y7Q4W3X6', '1Z8V6U5S9', '7C0D2F3H4',
+            '4E5G1J9K3', '6M7N8P2Q1', '3R9S5T6V0', '8X2Z4A7B9', '1D3E5F7G9', '0H2J4K6L8', '5M7N9P1Q3',
+            '9R1S3T5U7', '2V4W6X8Y0', '7A9B1C3D5', '4E6F8G0H2', '6J8K0L2M4', '3N5P7Q9R1', '8S0T2U4V6',
+            '1W3X5Y7Z9', '0A2B4C6D8', '5E7F9G1H3', '9J1K3L5M7', '2N4P6Q8R0', '7S9T1U3V5', '4W6X8Y0Z2',
+            '6A8B0C2D4', '3D5E7F9G1', '8H0J2K4L6', '1M3N5P7Q9', '0R2S4T6U8', '5V7W9X1Y3', '9Z1A3B5C7',
+            '2D4E6F8G0', '7H9J1K3L5', '4M6N8P0Q2', '6R8S0T2U4', '3V5W7X9Y1', '8Z0A2B4B6', '1C3D5E7F9',
+            '0G2H4J6K8', '5L7M9N1P3', '9Q1R3S5T7', '2U4V6W8X0', '7Y9Z1A3B5', '4C6D8E0F2', '6G8H0J2K4',
+            '3L5M7N9P1', '8Q0R2S4T6', '1W3X5Y7Z9', '0A2B4C6D8', '5E7F9G1H3', '9J1K3L5M7', '2N4P6Q8R0',
+            '7S9T1U3V5', '4W6X8Y0Z2', '6A8B0C2D4', '3D5E7F9G1', '8H0J2K4L6', '1M3N5P7Q9', '0R2S4T6U8',
+            '5V7W9X1Y3', '9Z1A3B5C7', '2D4E6F8G0', '7H9J1K3L5', '4M6N8P0Q2', '6R8S0T2U4', '3V5W7X9Y1',
+            '8Z0A2B4B6', '1C3D5E7F9', '0G2H4J6K8', '5L7M9N1P3', '9Q1R3S5T7', '2U4V6W8X0', '7Y9Z1A3B5',
+            '4C6D8E0F2', '6G8H0J2K4', '3L5M7N9P1', '8Q0R2S4T6', '1W3X5Y7Z9', '0A2B4C6D8', '5E7F9G1H3',
+            '9J1K3L5M7', '2N4P6Q8R0', '7S9T1U3V5', '4W6X8Y0Z2', '6A8B0C2D4', '3D5E7F9G1', '8H0J2K4L6',
+            '1M3N5P7Q9', '0R2S4T6U8', '5V7W9X1Y3', '9Z1A3B5C7', '2D4E6F8G0', '7H9J1K3L5', '4M6N8P0Q2',
+            '6R8S0T2U4', '3V5W7X9Y1'
+        ];
+
+        // Get the key code from the URL parameter or generate a random one
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const keyCodeSpan = document.getElementById('key-code');
+        const copyTextSpan = document.getElementById('copy-text');
+
+        if (code) {
+            // If a code is passed in the URL, use it
+            keyCodeSpan.textContent = code;
+        } else {
+            // Otherwise, get a random code from the list
+            const randomIndex = Math.floor(Math.random() * keyCodes.length);
+            keyCodeSpan.textContent = keyCodes[randomIndex];
+            copyTextSpan.style.display = 'block'; // Ensure copy text is visible
+        }
+
+        const copyButton = document.getElementById('copy-button');
+        copyButton.addEventListener('click', () => {
+            if (keyCodeSpan.textContent && keyCodeSpan.textContent !== 'Code not found.') {
+                const tempInput = document.createElement('input');
+                tempInput.value = keyCodeSpan.textContent;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                
+                copyButton.textContent = 'Copied!';
+                setTimeout(() => {
+                    copyButton.textContent = 'Copy Key Code';
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>
