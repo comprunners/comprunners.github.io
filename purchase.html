@@ -67,6 +67,65 @@
                 transform: scale(1);
             }
         }
+        
+        /* Modal styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: var(--main-card-bg);
+            margin: auto;
+            padding: 24px;
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+        }
+
+        .purchase-option {
+            background-color: var(--main-card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .purchase-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .purchase-option .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            background-image: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .purchase-option .description {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+        .purchase-option .duration {
+            font-size: 0.875rem;
+            color: var(--text-color);
+            opacity: 0.7;
+        }
+
     </style>
 </head>
 <body class="overflow-x-hidden">
@@ -101,56 +160,75 @@
     </header>
     
     <main class="container mx-auto px-4 md:px-8 lg:px-16 py-12 flex flex-col items-center justify-center min-h-screen">
-        <section class="w-full max-w-2xl p-8 rounded-3xl shadow-2xl relative" style="background-color: var(--main-card-bg); border: 1px solid var(--border-color);">
-            <h1 class="text-3xl md:text-4xl font-bold text-center gradient-text mb-4">Select Your Plan</h1>
-            <p class="text-center text-gray-400 mb-8">Choose the best option for you and get instant access to StellarX.</p>
+        <section class="w-full max-w-4xl p-8 rounded-3xl shadow-2xl relative" style="background-color: var(--main-card-bg); border: 1px solid var(--border-color);">
+            <h1 class="text-3xl md:text-4xl font-bold text-center gradient-text mb-4">Make Your Purchase</h1>
+            <p class="text-center text-gray-400 mb-8">Choose the day key that best fits your needs.</p>
 
-            <div id="purchase-options" class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <button class="purchase-button w-full px-8 py-4 rounded-xl font-bold text-lg shadow-lg transition-all duration-300 transform hover:scale-105" style="background-color: var(--accent-color); color: white;" data-amount="1">
-                    $1 StellarX Access
-                </button>
-                <button class="purchase-button w-full px-8 py-4 rounded-xl font-bold text-lg shadow-lg transition-all duration-300 transform hover:scale-105" style="background-color: var(--accent-color); color: white;" data-amount="2">
-                    $2 StellarX Access
-                </button>
-                <button class="purchase-button w-full px-8 py-4 rounded-xl font-bold text-lg shadow-lg transition-all duration-300 transform hover:scale-105" style="background-color: var(--accent-color); color: white;" data-amount="5">
-                    $5 StellarX Access
-                </button>
-                <button class="purchase-button w-full px-8 py-4 rounded-xl font-bold text-lg shadow-lg transition-all duration-300 transform hover:scale-105" style="background-color: var(--accent-color); color: white;" data-amount="free-trial">
-                    Free Trial
-                </button>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="purchase-option" data-duration="1" data-price="1">
+                    <div class="price">$1</div>
+                    <div class="description">One Day Key</div>
+                    <div class="duration">24-Hour Access</div>
+                </div>
+                <div class="purchase-option" data-duration="5" data-price="5">
+                    <div class="price">$5</div>
+                    <div class="description">Five Day Key</div>
+                    <div class="duration">120-Hour Access</div>
+                </div>
+                <div class="purchase-option" data-duration="10" data-price="10">
+                    <div class="price">$10</div>
+                    <div class="description">Ten Day Key</div>
+                    <div class="duration">240-Hour Access</div>
+                </div>
+                <div class="purchase-option" data-duration="20" data-price="20">
+                    <div class="price">$20</div>
+                    <div class="description">Twenty Day Key</div>
+                    <div class="duration">480-Hour Access</div>
+                </div>
+            </div>
+
+            <!-- Payment Form Section -->
+            <div id="payment-section" class="mt-12 transition-all duration-500 ease-in-out" style="display: none;">
+                <h2 class="text-2xl font-bold text-center gradient-text mb-4">Payment Details</h2>
+                <div class="text-center text-gray-400 mb-8">
+                    Total: <span id="total-price" class="font-bold text-lg text-white">$0.00</span>
+                </div>
+                <form id="payment-form" class="space-y-6">
+                    <div>
+                        <label for="card-number" class="block text-sm font-medium text-gray-300">Card Number</label>
+                        <input type="text" id="card-number" name="card-number" required class="mt-1 block w-full rounded-md bg-gray-800 text-white border-gray-700 focus:border-green-500 focus:ring-green-500 transition-colors duration-200">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="exp-date" class="block text-sm font-medium text-gray-300">Expiration Date</label>
+                            <input type="text" id="exp-date" name="exp-date" required placeholder="MM/YY" class="mt-1 block w-full rounded-md bg-gray-800 text-white border-gray-700 focus:border-green-500 focus:ring-green-500 transition-colors duration-200">
+                        </div>
+                        <div>
+                            <label for="cvv" class="block text-sm font-medium text-gray-300">CVV</label>
+                            <input type="text" id="cvv" name="cvv" required class="mt-1 block w-full rounded-md bg-gray-800 text-white border-gray-700 focus:border-green-500 focus:ring-green-500 transition-colors duration-200">
+                        </div>
+                    </div>
+                    <button type="submit" id="purchase-button" class="w-full px-8 py-4 rounded-xl font-bold text-lg shadow-lg transition-all duration-300 transform hover:scale-105" style="background-color: var(--accent-color); color: white;">
+                        Complete Purchase
+                    </button>
+                    <p id="error-message" class="text-center text-red-500 mt-2" style="display: none;"></p>
+                </form>
             </div>
         </section>
     </main>
 
-    <script type="module">
-        const purchaseOptions = document.getElementById('purchase-options');
-
-        // === YOUR PAYMENT LINKS GO HERE ===
-        // Change the placeholder links below to your actual payment URLs.
-        const paymentLinks = {
-            "1": "https://buy.stripe.com/test_9B6fZagkqeE24nO6aHcEw00",
-            "2": "https://your-2-dollar-payment-link.com",
-            "5": "https://your-5-dollar-payment-link.com",
-            "free-trial": "https://buy.stripe.com/test_9B614g1pwanM2fG1UrcEw01"
-        };
-        // ===================================
-
-        purchaseOptions.addEventListener('click', (e) => {
-            const button = e.target.closest('.purchase-button');
-            if (button) {
-                const amount = button.dataset.amount;
-                console.log(`User selected ${amount} purchase.`);
-                
-                const link = paymentLinks[amount];
-                if (link) {
-                    window.location.href = link;
-                } else {
-                    console.error(`No link found for amount: ${amount}`);
-                }
-            }
-        });
-
-        // This code block handles the starry background.
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content">
+            <svg class="mx-auto h-12 w-12 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4a1 1 0 000-1.414z" clip-rule="evenodd" />
+            </svg>
+            <h3 class="text-xl font-medium leading-6 mt-4">Purchase Complete!</h3>
+            <p id="modal-message" class="text-sm text-gray-400 mt-2">Your purchase has been successfully processed.</p>
+        </div>
+    </div>
+    
+    <script>
         const starField = document.getElementById('star-field');
         const numStars = 200;
         const createStar = () => {
@@ -168,6 +246,62 @@
             starField.appendChild(createStar());
         }
 
+        const purchaseOptions = document.querySelectorAll('.purchase-option');
+        const paymentSection = document.getElementById('payment-section');
+        const totalPriceSpan = document.getElementById('total-price');
+        const paymentForm = document.getElementById('payment-form');
+        const purchaseButton = document.getElementById('purchase-button');
+        const successModal = document.getElementById('success-modal');
+        const modalMessage = document.getElementById('modal-message');
+
+        const keyCodes = [
+            '0R9E5J8P7', '8L2B4M7C1', '5A3F9K6D2', '9T1G5H8N0', '2Y7Q4W3X6', '1Z8V6U5S9', '7C0D2F3H4',
+            '4E5G1J9K3', '6M7N8P2Q1', '3R9S5T6V0', '8X2Z4A7B9', '1D3E5F7G9', '0H2J4K6L8', '5M7N9P1Q3',
+            '9R1S3T5U7', '2V4W6X8Y0', '7A9B1C3D5', '4E6F8G0H2', '6J8K0L2M4', '3N5P7Q9R1', '8S0T2U4V6',
+            '1W3X5Y7Z9', '0A2B4C6D8', '5E7F9G1H3', '9J1K3L5M7', '2N4P6Q8R0', '7S9T1U3V5', '4W6X8Y0Z2',
+            '6A8B0C2D4', '3D5E7F9G1', '8H0J2K4L6', '1M3N5P7Q9', '0R2S4T6U8', '5V7W9X1Y3', '9Z1A3B5C7',
+            '2D4E6F8G0', '7H9J1K3L5', '4M6N8P0Q2', '6R8S0T2U4', '3V5W7X9Y1', '8Z0A2B4B6', '1C3D5E7F9',
+            '0G2H4J6K8', '5L7M9N1P3', '9Q1R3S5T7', '2U4V6W8X0', '7Y9Z1A3B5', '4C6D8E0F2', '6G8H0J2K4',
+            '3L5M7N9P1', '8Q0R2S4T6', '1W3X5Y7Z9', '0A2B4C6D8', '5E7F9G1H3', '9J1K3L5M7', '2N4P6Q8R0',
+            '7S9T1U3V5', '4W6X8Y0Z2', '6A8B0C2D4', '3D5E7F9G1', '8H0J2K4L6', '1M3N5P7Q9', '0R2S4T6U8',
+            '5V7W9X1Y3', '9Z1A3B5C7', '2D4E6F8G0', '7H9J1K3L5', '4M6N8P0Q2', '6R8S0T2U4', '3V5W7X9Y1'
+        ];
+
+        let selectedPrice = 0;
+        let selectedDuration = 0;
+
+        purchaseOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                selectedPrice = parseFloat(option.getAttribute('data-price'));
+                selectedDuration = parseInt(option.getAttribute('data-duration'));
+                totalPriceSpan.textContent = `$${selectedPrice.toFixed(2)}`;
+                paymentSection.style.display = 'block';
+                // Scroll to the payment section
+                paymentSection.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        paymentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            purchaseButton.disabled = true;
+            purchaseButton.textContent = 'Processing...';
+
+            // Get form data (these are not used for anything other than a placeholder)
+            const cardNumber = document.getElementById('card-number').value;
+            const expDate = document.getElementById('exp-date').value;
+            const cvv = document.getElementById('cvv').value;
+
+            // Generate a random key code
+            const randomIndex = Math.floor(Math.random() * keyCodes.length);
+            const generatedCode = keyCodes[randomIndex];
+            
+            // Show the success modal
+            successModal.style.display = 'flex';
+            modalMessage.textContent = `Purchase complete! Your key for ${selectedDuration} day(s) is: ${generatedCode}.`;
+            
+            purchaseButton.disabled = false;
+            purchaseButton.textContent = 'Complete Purchase';
+        });
     </script>
 </body>
 </html>
